@@ -1,0 +1,248 @@
+<div class="space-y-8">
+  
+  <!-- Card Adquirente(s) -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Adquirente(s)</h3>
+    
+    <!-- Formulário de Adição -->
+    <div class="flex flex-col md:flex-row gap-4 mb-6">
+      <!-- Nome Completo -->
+      <div class="w-full md:w-[35%]">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Nome Completo *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="novoAdquirente.nome"
+          [ngModelOptions]="{standalone: true}"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          placeholder="Digite o nome completo">
+      </div>
+
+      <!-- CPF ou CNPJ -->
+      <div class="w-full md:w-[30%]">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          CPF ou CNPJ *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="novoAdquirente.documento"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onDocumentInput($event)"
+          maxlength="18"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          placeholder="000.000.000-00">
+      </div>
+
+      <!-- Participação -->
+      <div class="w-full md:w-[15%]">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Participação *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="novoAdquirente.participacao"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onParticipacaoInput($event)"
+          maxlength="7"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          placeholder="00,00%">
+      </div>
+
+      <!-- Botão Adicionar -->
+      <div class="w-full md:w-[20%] flex items-end">
+        <button 
+          type="button"
+          (click)="adicionarAdquirente()"
+          [disabled]="!podeAdicionar"
+          class="w-full px-4 py-2 text-sm font-medium text-white rounded-lg transition-colors"
+          [class.bg-[#0057FD]]="podeAdicionar"
+          [class.hover:bg-[#0046D1]]="podeAdicionar"
+          [class.bg-gray-400]="!podeAdicionar"
+          [class.cursor-not-allowed]="!podeAdicionar">
+          Adicionar
+        </button>
+      </div>
+    </div>
+
+    <!-- Aviso de Participação -->
+    @if (novaParticipacaoExcederia && novoAdquirente.participacao) {
+      <div class="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg">
+        <div class="flex items-center">
+          <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
+          <span class="text-sm text-red-800">
+            Não é possível adicionar {{ novoAdquirente.participacao }}. Restam apenas {{ participacaoRestante.toFixed(2) }}% disponíveis.
+          </span>
+        </div>
+      </div>
+    }
+
+    <!-- Validação de Participação -->
+    @if (adquirentes.length > 0) {
+      <div class="mb-4">
+        @if (participacaoStatus === 'valid') {
+          <div class="p-3 bg-green-50 border border-green-200 rounded-lg">
+            <div class="flex items-center">
+              <i class="fas fa-check-circle text-green-600 mr-2"></i>
+              <span class="text-sm text-green-800">Perfeito! A participação total está em {{ totalParticipacao.toFixed(2) }}% ✓</span>
+            </div>
+          </div>
+        } @else if (participacaoStatus === 'exceeded') {
+          <div class="p-3 bg-red-50 border border-red-200 rounded-lg">
+            <div class="flex items-center">
+              <i class="fas fa-exclamation-circle text-red-600 mr-2"></i>
+              <span class="text-sm text-red-800">Atenção! A participação total ultrapassou 100%: {{ totalParticipacao.toFixed(2) }}%</span>
+            </div>
+          </div>
+        } @else {
+          <div class="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+            <div class="flex items-center">
+              <i class="fas fa-info-circle text-blue-600 mr-2"></i>
+              <span class="text-sm text-blue-800">
+                Participação atual: {{ totalParticipacao.toFixed(2) }}%. Ainda faltam {{ participacaoRestante.toFixed(2) }}% para completar 100%.
+              </span>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Tabela de Adquirentes -->
+    @if (adquirentes.length > 0) {
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Participação</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (adquirente of adquirentes; track adquirente.id) {
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4">
+                  <input 
+                    type="checkbox" 
+                    [(ngModel)]="adquirente.principal"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="setPrincipalAdquirente(adquirente.id)"
+                    class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded focus:ring-[#0057FD] focus:ring-2">
+                </td>
+                <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(adquirente.documento) }}</td>
+                <td class="py-3 px-4 text-gray-700">{{ adquirente.nome }}</td>
+                <td class="py-3 px-4 text-gray-700 font-medium">{{ adquirente.participacao }}</td>
+                <td class="py-3 px-4">
+                  <button 
+                    type="button"
+                    (click)="removerAdquirente(adquirente.id)"
+                    class="text-red-600 hover:text-red-800">
+                    <i class="fas fa-trash text-sm"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+  <!-- Card Contato Adquirente Principal -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Contato Adquirente Principal</h3>
+    
+    <!-- Primeira linha: E-mails -->
+    <div class="flex flex-col md:flex-row gap-6 mb-6">
+      <!-- E-mail -->
+      <div class="w-full md:w-1/2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          E-mail *
+        </label>
+        <input 
+          type="email" 
+          [(ngModel)]="contato.email"
+          [ngModelOptions]="{standalone: true}"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          [class.border-red-300]="contato.confirmeEmail && !emailsMatch"
+          placeholder="Digite o e-mail">
+      </div>
+
+      <!-- Confirme o E-mail -->
+      <div class="w-full md:w-1/2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Confirme o E-mail *
+        </label>
+        <input 
+          type="email" 
+          [(ngModel)]="contato.confirmeEmail"
+          [ngModelOptions]="{standalone: true}"
+          (paste)="onPaste($event)"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          [class.border-red-300]="contato.confirmeEmail && !emailsMatch"
+          [class.border-green-300]="contato.confirmeEmail && emailsMatch"
+          placeholder="Confirme o e-mail">
+        @if (contato.confirmeEmail && !emailsMatch) {
+          <p class="text-red-600 text-xs mt-1">E-mails não conferem</p>
+        }
+      </div>
+    </div>
+
+    <!-- Segunda linha: Celulares -->
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Celular -->
+      <div class="w-full md:w-1/2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Celular *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="contato.celular"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onCelularInput($event, 'celular')"
+          maxlength="16"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          [class.border-red-300]="contato.confirmeCelular && !celularesMatch"
+          placeholder="(00) 0 0000-0000">
+      </div>
+
+      <!-- Confirme Celular -->
+      <div class="w-full md:w-1/2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Confirme Celular *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="contato.confirmeCelular"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onCelularInput($event, 'confirmeCelular')"
+          (paste)="onPaste($event)"
+          maxlength="16"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          [class.border-red-300]="contato.confirmeCelular && !celularesMatch"
+          [class.border-green-300]="contato.confirmeCelular && celularesMatch"
+          placeholder="(00) 0 0000-0000">
+        @if (contato.confirmeCelular && !celularesMatch) {
+          <p class="text-red-600 text-xs mt-1">Celulares não conferem</p>
+        }
+      </div>
+    </div>
+
+    <!-- Checkbox de Aceite -->
+    <div class="mt-6">
+      <label class="flex items-start">
+        <input 
+          type="checkbox" 
+          [(ngModel)]="contato.aceitaTermos"
+          [ngModelOptions]="{standalone: true}"
+          class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded focus:ring-[#0057FD] focus:ring-2 mt-1 mr-3">
+        <span class="text-sm text-gray-700">
+          Estou ciente de que os dados de contato fornecidos poderão ser utilizados exclusivamente pela Prefeitura de Uberlândia para fins institucionais.
+        </span>
+      </label>
+    </div>
+  </div>
+
+</div>

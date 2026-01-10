@@ -1,0 +1,244 @@
+<div class="space-y-8">
+  
+  <!-- Tipo do Imóvel -->
+  <div class="flex items-center gap-4 mb-8">
+    <span class="text-sm font-medium text-gray-700">Selecione o tipo do imóvel:</span>
+    
+    <div class="inline-flex bg-gray-100 rounded-full p-1">
+      <button 
+        type="button"
+        (click)="onTipoImovelChange('urbano')"
+        class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+        [class.bg-[#0057FD]]="tipoImovel === 'urbano'"
+        [class.text-white]="tipoImovel === 'urbano'"
+        [class.shadow-sm]="tipoImovel === 'urbano'"
+        [class.text-gray-600]="tipoImovel !== 'urbano'">
+        Imóvel Urbano
+      </button>
+      <button 
+        type="button"
+        (click)="onTipoImovelChange('rural')"
+        class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+        [class.bg-[#0057FD]]="tipoImovel === 'rural'"
+        [class.text-white]="tipoImovel === 'rural'"
+        [class.shadow-sm]="tipoImovel === 'rural'"
+        [class.text-gray-600]="tipoImovel !== 'rural'">
+        Imóvel Rural
+      </button>
+    </div>
+  </div>
+
+  <!-- Card Dados do Imóvel -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Dados do Imóvel</h3>
+    
+    <div [formGroup]="imovelForm" class="space-y-6">
+      
+      <!-- Campos para Imóvel Urbano -->
+      @if (tipoImovel === 'urbano') {
+        <!-- Inscrição Cadastral -->
+        <div class="mb-6">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Inscrição Cadastral *
+          </label>
+          <div class="relative">
+            <input 
+              type="text" 
+              formControlName="inscricaoCadastral"
+              class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+              placeholder="Digite a inscrição cadastral">
+            <button 
+              type="button"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600">
+              <i class="fas fa-search text-sm"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Endereço e Quadra/Lote na mesma row -->
+        <div class="flex flex-col md:flex-row gap-6">
+          <!-- Endereço -->
+          <div class="w-full md:w-[70%]">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Endereço *
+            </label>
+            <input 
+              type="text" 
+              formControlName="endereco"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+              placeholder="Digite o endereço completo">
+          </div>
+
+          <!-- Quadra/Lote -->
+          <div class="w-full md:w-[30%]">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Quadra/Lote *
+            </label>
+            <input 
+              type="text" 
+              formControlName="quadraLote"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+              placeholder="Ex: Quadra 10, Lote 15">
+          </div>
+        </div>
+      }
+
+      <!-- Campos para Imóvel Rural -->
+      @if (tipoImovel === 'rural') {
+        <!-- Localidade/Distrito -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Localidade/Distrito *
+          </label>
+          <input 
+            type="text" 
+            formControlName="localidadeDistrito"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+            placeholder="Digite a localidade ou distrito">
+        </div>
+
+        <!-- Referência -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Referência *
+          </label>
+          <input 
+            type="text" 
+            formControlName="referencia"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+            placeholder="Digite uma referência para localização">
+        </div>
+      }
+
+    </div>
+  </div>
+
+  <!-- Card Dados da Matrícula do Imóvel -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Dados da Matrícula do Imóvel</h3>
+    
+    <div [formGroup]="imovelForm">
+      <!-- Primeira linha: Matrícula, Data, Cartório -->
+      <div class="flex flex-col md:flex-row gap-6 mb-6">
+        
+        <!-- Matrícula -->
+        <div class="w-full md:w-1/3">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Matrícula *
+          </label>
+          <input 
+            type="text" 
+            formControlName="matricula"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+            placeholder="Digite a matrícula">
+        </div>
+
+        <!-- Data de Emissão da Matrícula -->
+        <div class="w-full md:w-1/3">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Data de Emissão da Matrícula *
+          </label>
+          <input 
+            type="date" 
+            formControlName="dataEmissaoMatricula"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]">
+        </div>
+
+        <!-- Cartório de Registro do Imóvel -->
+        <div class="w-full md:w-1/3">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Cartório de Registro do Imóvel *
+          </label>
+          <select 
+            formControlName="cartorioRegistro"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]">
+            <option value="">Selecione o cartório</option>
+            <option value="1cri">1º Cartório de Registro de Imóveis</option>
+            <option value="2cri">2º Cartório de Registro de Imóveis</option>
+            <option value="3cri">3º Cartório de Registro de Imóveis</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Segunda linha: Áreas (apenas para Rural) -->
+      @if (tipoImovel === 'rural') {
+        <div class="flex flex-col md:flex-row gap-6 mb-4">
+          
+          <!-- Área Terreno -->
+          <div class="w-full md:w-1/2">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Área Terreno (ha) *
+            </label>
+            <input 
+              type="number" 
+              formControlName="areaTerreno"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+              placeholder="0,00"
+              step="0.01">
+          </div>
+
+          <!-- Área Construída -->
+          <div class="w-full md:w-1/2">
+            <label class="block text-sm font-medium text-gray-700 mb-2">
+              Área Construída (m²) *
+            </label>
+            <input 
+              type="number" 
+              formControlName="areaConstruida"
+              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+              placeholder="0,00"
+              step="0.01">
+          </div>
+
+        </div>
+
+        <!-- Alert para Imóvel Rural -->
+        <div class="p-4 bg-amber-50 border border-amber-200 rounded-lg">
+          <div class="flex items-start">
+            <i class="fas fa-exclamation-triangle text-amber-600 mt-0.5 mr-3"></i>
+            <div>
+              <p class="text-sm text-amber-800">
+                <strong>Atenção:</strong> Área acima de 2ha (20.000m²) deverá conter carimbo do INCRA
+              </p>
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Tabela de Inscrições Imobiliárias -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Inscrição Imobiliária</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Complemento</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Área do Terreno</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Área Construída</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of inscricoesImoveis; track item.id) {
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+              <td class="py-3 px-4">
+                <input 
+                  type="checkbox" 
+                  [checked]="item.principal"
+                  class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded focus:ring-[#0057FD] focus:ring-2">
+              </td>
+              <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ item.inscricaoImobiliaria }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ item.complemento }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ item.areaTerreno }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ item.areaConstruida }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

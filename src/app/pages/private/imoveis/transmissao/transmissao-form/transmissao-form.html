@@ -1,0 +1,131 @@
+<div class="min-h-screen bg-gray-50 w-full overflow-x-hidden">
+  <div class="w-full max-w-6xl mx-auto px-3 lg:px-4 py-4 lg:py-6">
+    
+    <!-- Título -->
+    <div class="mb-6 lg:mb-8">
+      <h1 class="text-xl lg:text-2xl font-bold text-gray-900">Declarar Transmissão</h1>
+    </div>
+
+    <!-- Stepper Centralizado -->
+    <div class="w-full mb-8 lg:mb-20">
+      <div class="w-full overflow-x-auto">
+        <nav class="flex justify-center min-w-max px-4" aria-label="Progress">
+          <ol class="flex items-center space-x-2 sm:space-x-4 lg:space-x-16">
+            @for (step of steps; track step.id; let i = $index) {
+              <li class="relative flex flex-col items-center min-w-[60px] sm:min-w-[80px] lg:min-w-[120px]">
+                
+                <!-- Step Button -->
+                <button 
+                  (click)="goToStep(i)"
+                  class="group relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full transition-all duration-200"
+                  [class.bg-[#0057FD]]="i === currentStep"
+                  [class.text-white]="i === currentStep"
+                  [class.bg-green-600]="step.completed"
+                  [class.text-white]="step.completed"
+                  [class.bg-gray-200]="i !== currentStep && !step.completed"
+                  [class.text-gray-600]="i !== currentStep && !step.completed">
+                  
+                  @if (step.completed) {
+                    <i class="fas fa-check text-[10px] sm:text-xs lg:text-sm"></i>
+                  } @else {
+                    <span class="text-[10px] sm:text-xs lg:text-sm font-medium">{{ i + 1 }}</span>
+                  }
+                </button>
+
+                <!-- Step Label -->
+                <div class="mt-1 sm:mt-2 lg:mt-3 text-center px-1">
+                  <span class="text-[8px] sm:text-[10px] lg:text-xs font-medium text-gray-600 leading-tight block">{{ step.title }}</span>
+                </div>
+
+                <!-- Connector Line -->
+                @if (i < steps.length - 1) {
+                  <div class="absolute top-3 sm:top-4 lg:top-5 left-full w-2 sm:w-4 lg:w-16 h-0.5 bg-gray-200"
+                       [class.bg-green-600]="step.completed">
+                  </div>
+                }
+              </li>
+            }
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Form Content -->
+    <form [formGroup]="transmissaoForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Step Imóvel -->
+      @if (currentStep === 0) {
+        <app-step-imovel 
+          [formGroup]="transmissaoForm"
+          [tipoImovel]="tipoImovel"
+          [inscricoesImoveis]="inscricoesImoveis">
+        </app-step-imovel>
+      }
+
+      <!-- Step Transmissão -->
+      @if (currentStep === 1) {
+        <app-step-transmissao 
+          [formGroup]="transmissaoForm"
+          [financiamentoSFH]="financiamentoSFH"
+          [itbiPagoAnteriormente]="itbiPagoAnteriormente"
+          [isencaoImunidade]="isencaoImunidade">
+        </app-step-transmissao>
+      }
+
+      <!-- Outros Steps (placeholder) -->
+      @if (currentStep === 2) {
+        <app-step-transmitentes 
+          [formGroup]="transmissaoForm">
+        </app-step-transmitentes>
+      }
+
+      @if (currentStep === 3) {
+        <app-step-adquirentes 
+          [formGroup]="transmissaoForm">
+        </app-step-adquirentes>
+      }
+
+      @if (currentStep === 4) {
+        <app-step-anexos 
+          [formGroup]="transmissaoForm">
+        </app-step-anexos>
+      }
+
+      @if (currentStep === 5) {
+        <app-step-confirmacao 
+          [formGroup]="transmissaoForm">
+        </app-step-confirmacao>
+      }
+
+      <!-- Navigation Buttons -->
+      <div class="flex flex-col sm:flex-row justify-between gap-4 pt-6 lg:pt-8 mt-6 lg:mt-8 border-t border-gray-200">
+        <button 
+          type="button"
+          (click)="prevStep()"
+          [disabled]="currentStep === 0"
+          class="w-full sm:w-auto px-4 lg:px-6 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed">
+          Anterior
+        </button>
+
+        @if (currentStep < steps.length - 1) {
+          <button 
+            type="button"
+            (click)="nextStep()"
+            class="w-full sm:w-auto px-4 lg:px-6 py-2 text-sm font-medium text-white bg-[#0057FD] rounded-lg hover:bg-[#0046D1]">
+            Próximo
+          </button>
+        }
+
+        @if (currentStep === steps.length - 1) {
+          <button 
+            type="submit"
+            class="w-full sm:w-auto px-4 lg:px-6 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700">
+            Finalizar
+          </button>
+        }
+      </div>
+
+    </form>
+
+  </div>
+</div>

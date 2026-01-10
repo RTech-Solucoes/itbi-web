@@ -1,0 +1,89 @@
+<div class="space-y-8">
+  
+  <!-- Card Transmitente(s) -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Transmitente(s)</h3>
+    
+    <!-- Formulário de Adição -->
+    <div class="flex flex-col md:flex-row gap-4 mb-6">
+      <!-- Nome Completo -->
+      <div class="w-full md:w-[45%]">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Nome Completo *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="novoTransmitente.nome"
+          [ngModelOptions]="{standalone: true}"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          placeholder="Digite o nome completo">
+      </div>
+
+      <!-- CPF ou CNPJ -->
+      <div class="w-full md:w-[35%]">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          CPF ou CNPJ *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="novoTransmitente.documento"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onDocumentInput($event)"
+          maxlength="18"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          placeholder="000.000.000-00">
+      </div>
+
+      <!-- Botão Adicionar -->
+      <div class="w-full md:w-[20%] flex items-end">
+        <button 
+          type="button"
+          (click)="adicionarTransmitente()"
+          class="w-full px-4 py-2 text-sm font-medium text-white bg-[#0057FD] rounded-lg hover:bg-[#0046D1]">
+          Adicionar
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabela de Transmitentes -->
+    @if (transmitentes.length > 0) {
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (transmitente of transmitentes; track transmitente.id) {
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4">
+                  <input 
+                    type="checkbox" 
+                    [(ngModel)]="transmitente.principal"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="setPrincipalTransmitente(transmitente.id)"
+                    class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded focus:ring-[#0057FD] focus:ring-2">
+                </td>
+                <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(transmitente.documento) }}</td>
+                <td class="py-3 px-4 text-gray-700">{{ transmitente.nome }}</td>
+                <td class="py-3 px-4">
+                  <button 
+                    type="button"
+                    (click)="removerTransmitente(transmitente.id)"
+                    class="text-red-600 hover:text-red-800">
+                    <i class="fas fa-trash text-sm"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+</div>

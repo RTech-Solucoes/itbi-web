@@ -1,0 +1,322 @@
+<div class="space-y-8">
+  
+  <!-- Card Dados da Transmissão -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Dados da Transmissão</h3>
+    
+    <div [formGroup]="transmissaoForm" class="space-y-6">
+      
+      <!-- Primeira linha: Natureza e Compra -->
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- Natureza da Transmissão -->
+        <div class="w-full md:w-[70%]">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Natureza da Transmissão *
+          </label>
+          <select 
+            formControlName="naturezaTransmissao"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]">
+            <option value="">Selecione a natureza</option>
+            <option value="compra-venda">Compra e Venda</option>
+            <option value="doacao">Doação</option>
+            <option value="permuta">Permuta</option>
+            <option value="dao-pagamento">Dação em Pagamento</option>
+          </select>
+        </div>
+
+        <!-- Compra Total ou Parcial -->
+        <div class="w-full md:w-[30%]">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Compra Total ou Parcial *
+          </label>
+          <select 
+            formControlName="compraTotalParcial"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]">
+            <option value="">Selecione</option>
+            <option value="total">Total</option>
+            <option value="parcial">Parcial</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Segunda linha: Percentual e Valor da Fração -->
+      <div class="flex flex-col md:flex-row gap-6">
+        <!-- Percentual ou Fração -->
+        <div class="w-full md:w-[35%]">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Percentual ou Fração *
+          </label>
+          <select 
+            formControlName="percentualFracao"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]">
+            <option value="">Selecione</option>
+            <option value="percentual">Percentual</option>
+            <option value="fracao">Fração</option>
+          </select>
+        </div>
+
+        <!-- Valor da Fração -->
+        <div class="w-full md:w-[35%]">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Valor da Fração *
+          </label>
+          <input 
+            type="text" 
+            formControlName="valorFracao"
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+            placeholder="00/00"
+            maxlength="5">
+        </div>
+      </div>
+
+      <!-- Switches -->
+      <div class="space-y-6">
+        
+        <!-- Financiamento SFH -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            O Financiamento é pelo Sistema Financeiro Habitacional (SFH)?
+          </label>
+          <div class="inline-flex bg-gray-100 rounded-full p-1">
+            <button 
+              type="button"
+              (click)="onFinanciamentoSFHChange('sim')"
+              class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+              [class.bg-[#0057FD]]="financiamentoSFH === 'sim'"
+              [class.text-white]="financiamentoSFH === 'sim'"
+              [class.shadow-sm]="financiamentoSFH === 'sim'"
+              [class.text-gray-600]="financiamentoSFH !== 'sim'">
+              Sim
+            </button>
+            <button 
+              type="button"
+              (click)="onFinanciamentoSFHChange('nao')"
+              class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+              [class.bg-[#0057FD]]="financiamentoSFH === 'nao'"
+              [class.text-white]="financiamentoSFH === 'nao'"
+              [class.shadow-sm]="financiamentoSFH === 'nao'"
+              [class.text-gray-600]="financiamentoSFH !== 'nao'">
+              Não
+            </button>
+          </div>
+        </div>
+
+        <!-- ITBI Pago Anteriormente -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Possui ITBI Pago anteriormente para esta transmissão?
+          </label>
+          <div class="inline-flex bg-gray-100 rounded-full p-1">
+            <button 
+              type="button"
+              (click)="onItbiPagoAnteriormenteChange('sim')"
+              class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+              [class.bg-[#0057FD]]="itbiPagoAnteriormente === 'sim'"
+              [class.text-white]="itbiPagoAnteriormente === 'sim'"
+              [class.shadow-sm]="itbiPagoAnteriormente === 'sim'"
+              [class.text-gray-600]="itbiPagoAnteriormente !== 'sim'">
+              Sim
+            </button>
+            <button 
+              type="button"
+              (click)="onItbiPagoAnteriormenteChange('nao')"
+              class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+              [class.bg-[#0057FD]]="itbiPagoAnteriormente === 'nao'"
+              [class.text-white]="itbiPagoAnteriormente === 'nao'"
+              [class.shadow-sm]="itbiPagoAnteriormente === 'nao'"
+              [class.text-gray-600]="itbiPagoAnteriormente !== 'nao'">
+              Não
+            </button>
+          </div>
+        </div>
+
+        <!-- Isenção/Imunidade -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Existe Isenção/Imunidade/Não Incidência?
+          </label>
+          <div class="inline-flex bg-gray-100 rounded-full p-1">
+            <button 
+              type="button"
+              (click)="onIsencaoImunidadeChange('sim')"
+              class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+              [class.bg-[#0057FD]]="isencaoImunidade === 'sim'"
+              [class.text-white]="isencaoImunidade === 'sim'"
+              [class.shadow-sm]="isencaoImunidade === 'sim'"
+              [class.text-gray-600]="isencaoImunidade !== 'sim'">
+              Sim
+            </button>
+            <button 
+              type="button"
+              (click)="onIsencaoImunidadeChange('nao')"
+              class="px-4 py-1.5 text-sm font-medium rounded-full transition-all duration-200 cursor-pointer"
+              [class.bg-[#0057FD]]="isencaoImunidade === 'nao'"
+              [class.text-white]="isencaoImunidade === 'nao'"
+              [class.shadow-sm]="isencaoImunidade === 'nao'"
+              [class.text-gray-600]="isencaoImunidade !== 'nao'">
+              Não
+            </button>
+          </div>
+        </div>
+
+        <!-- Valor do ITBI Pago -->
+        <div class="w-full md:w-[35%]">
+          <label class="block text-sm font-medium text-gray-700 mb-2">
+            Valor do ITBI Pago
+          </label>
+          <div class="relative">
+            <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">R$</span>
+            <input 
+              type="text" 
+              formControlName="valorItbiPago"
+              class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+              placeholder="0,00">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Card Valores da Transmissão -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Valores da Transmissão</h3>
+    
+    <div [formGroup]="transmissaoForm" class="flex flex-col md:flex-row gap-6">
+      
+      <!-- Valor -->
+      <div class="w-full md:w-1/3">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Valor *
+        </label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">R$</span>
+          <input 
+            type="text" 
+            formControlName="valor"
+            class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+            placeholder="0,00">
+        </div>
+      </div>
+
+      <!-- Valor Financiado -->
+      <div class="w-full md:w-1/3">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Valor Financiado *
+        </label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">R$</span>
+          <input 
+            type="text" 
+            formControlName="valorFinanciado"
+            class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+            placeholder="0,00">
+        </div>
+      </div>
+
+      <!-- Valor Não Financiado -->
+      <div class="w-full md:w-1/3">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Valor Não Financiado *
+        </label>
+        <div class="relative">
+          <span class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">R$</span>
+          <input 
+            type="text" 
+            formControlName="valorNaoFinanciado"
+            class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+            placeholder="0,00">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Card Informe o(s) Usufrutuário(s) -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Informe o(s) Usufrutuário(s)</h3>
+    
+    <!-- Formulário de Adição -->
+    <div class="flex flex-col md:flex-row gap-4 mb-6">
+      <!-- Nome Completo -->
+      <div class="w-full md:w-[45%]">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Nome Completo *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="novoUsufruto.nome"
+          [ngModelOptions]="{standalone: true}"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          placeholder="Digite o nome completo">
+      </div>
+
+      <!-- CPF ou CNPJ -->
+      <div class="w-full md:w-[35%]">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          CPF ou CNPJ *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="novoUsufruto.documento"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onDocumentInput($event)"
+          maxlength="18"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          placeholder="000.000.000-00">
+      </div>
+
+      <!-- Botão Adicionar -->
+      <div class="w-full md:w-[20%] flex items-end">
+        <button 
+          type="button"
+          (click)="adicionarUsufruto()"
+          class="w-full px-4 py-2 text-sm font-medium text-white bg-[#0057FD] rounded-lg hover:bg-[#0046D1]">
+          Adicionar
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabela de Usufrutuários -->
+    @if (usufrutos.length > 0) {
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900"></th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (usufruto of usufrutos; track usufruto.id) {
+              <tr class="border-b border-gray-100 hover:bg-gray-50">
+                <td class="py-3 px-4">
+                  <input 
+                    type="checkbox" 
+                    [(ngModel)]="usufruto.principal"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="setPrincipalUsufruto(usufruto.id)"
+                    class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded focus:ring-[#0057FD] focus:ring-2">
+                </td>
+                <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(usufruto.documento) }}</td>
+                <td class="py-3 px-4 text-gray-700">{{ usufruto.nome }}</td>
+                <td class="py-3 px-4">
+                  <button 
+                    type="button"
+                    (click)="removerUsufruto(usufruto.id)"
+                    class="text-red-600 hover:text-red-800">
+                    <i class="fas fa-trash text-sm"></i>
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+</div>

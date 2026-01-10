@@ -1,0 +1,7 @@
+/* Padronização da cor azul #0057FD */
+.bg-primary { background-color: #0057FD !important; }
+.text-primary { color: #0057FD !important; }
+.border-primary { border-color: #0057FD !important; }
+.focus\:ring-primary:focus { --tw-ring-color: #0057FD !important; }
+.focus\:border-primary:focus { border-color: #0057FD !important; }
+.hover\:bg-primary-dark:hover { background-color: #0046D1 !important; }

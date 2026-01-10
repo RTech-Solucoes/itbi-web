@@ -1,0 +1,315 @@
+<div class="space-y-8">
+  
+  <!-- Card Dados da Transmissão -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Dados da Transmissão</h3>
+    
+    <!-- Grid de Mini Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      @for (item of dadosTransmissao; track item.label) {
+        <div class="mini-card" 
+             style="width: 226px; height: 80px; border-radius: 6px;">
+          <div class="label-style">{{ item.label }}</div>
+          <div class="value-style">{{ item.value }}</div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Card Dados do Imóvel -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Dados do Imóvel</h3>
+    
+    <!-- Endereço - Full Width -->
+    <div class="mini-card mb-4" style="width: 100%; height: 80px; border-radius: 6px;">
+      <div class="label-style">ENDEREÇO</div>
+      <div class="value-style">{{ dadosImovel.endereco }}</div>
+    </div>
+    
+    <!-- Grid de Mini Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
+      @for (item of dadosImovelDetalhes; track item.label) {
+        <div class="mini-card" style="width: 226px; height: 80px; border-radius: 6px;">
+          <div class="label-style">{{ item.label }}</div>
+          <div class="value-style">{{ item.value }}</div>
+        </div>
+      }
+    </div>
+
+    <!-- Tabela de Inscrições Imobiliárias -->
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Inscrição Imobiliária</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Complemento</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Área do Terreno</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Área Construída</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of inscricoesImoveis; track item.id) {
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4">
+                <input 
+                  type="checkbox" 
+                  [checked]="item.principal"
+                  disabled
+                  class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded">
+              </td>
+              <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ item.inscricaoImobiliaria }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ item.complemento }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ item.areaTerreno }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ item.areaConstruida }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Card Transmitentes -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Transmitentes</h3>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (transmitente of transmitentes; track transmitente.id) {
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4">
+                <input 
+                  type="checkbox" 
+                  [checked]="transmitente.principal"
+                  disabled
+                  class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded">
+              </td>
+              <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(transmitente.documento) }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ transmitente.nome }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Card Adquirentes -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Adquirentes</h3>
+    
+    <div class="overflow-x-auto">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+            <th class="text-left py-3 px-4 font-medium text-gray-900">Participação</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (adquirente of adquirentes; track adquirente.id) {
+            <tr class="border-b border-gray-100">
+              <td class="py-3 px-4">
+                <input 
+                  type="checkbox" 
+                  [checked]="adquirente.principal"
+                  disabled
+                  class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded">
+              </td>
+              <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(adquirente.documento) }}</td>
+              <td class="py-3 px-4 text-gray-700">{{ adquirente.nome }}</td>
+              <td class="py-3 px-4 text-gray-700 font-medium">{{ adquirente.participacao }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Card Usufrutuários -->
+  @if (usufrutos.length > 0) {
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-6">Usufrutuários</h3>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-gray-200">
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+              <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (usufruto of usufrutos; track usufruto.id) {
+              <tr class="border-b border-gray-100">
+                <td class="py-3 px-4">
+                  <input 
+                    type="checkbox" 
+                    [checked]="usufruto.principal"
+                    disabled
+                    class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded">
+                </td>
+                <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(usufruto.documento) }}</td>
+                <td class="py-3 px-4 text-gray-700">{{ usufruto.nome }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+
+  <!-- Card Arquivos Anexados -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Arquivos Anexados</h3>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      @for (arquivo of arquivosAnexados; track arquivo.id) {
+        <div class="bg-gray-50 rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition-colors"
+             (click)="openFile(arquivo)">
+          <div class="flex items-center mb-2">
+            <img src="assets/icone_pdf.png" alt="PDF" class="w-6 h-6 mr-3">
+            <span class="text-sm font-medium text-gray-900 truncate">{{ arquivo.nome }}</span>
+          </div>
+          <div class="text-xs text-gray-500">
+            <span>{{ arquivo.tamanho }}</span>
+            <span class="mx-2">•</span>
+            <span class="text-green-600">Anexado</span>
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Card Dados de Contato -->
+  <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+    <h3 class="text-lg font-semibold text-gray-900 mb-6">Dados de Contato</h3>
+    
+    <!-- Primeira linha: E-mails -->
+    <div class="flex flex-col md:flex-row gap-6 mb-6">
+      <!-- E-mail -->
+      <div class="w-full md:w-1/2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          E-mail *
+        </label>
+        <input 
+          type="email" 
+          [(ngModel)]="dadosContato.email"
+          [ngModelOptions]="{standalone: true}"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          [class.border-red-300]="dadosContato.confirmeEmail && !emailsMatch"
+          placeholder="Digite o e-mail">
+      </div>
+
+      <!-- Confirme o E-mail -->
+      <div class="w-full md:w-1/2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Confirme o E-mail *
+        </label>
+        <input 
+          type="email" 
+          [(ngModel)]="dadosContato.confirmeEmail"
+          [ngModelOptions]="{standalone: true}"
+          (paste)="onPaste($event)"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          [class.border-red-300]="dadosContato.confirmeEmail && !emailsMatch"
+          [class.border-green-300]="dadosContato.confirmeEmail && emailsMatch"
+          placeholder="Confirme o e-mail">
+        @if (dadosContato.confirmeEmail && !emailsMatch) {
+          <p class="text-red-600 text-xs mt-1">E-mails não conferem</p>
+        }
+      </div>
+    </div>
+
+    <!-- Segunda linha: Celulares -->
+    <div class="flex flex-col md:flex-row gap-6 mb-6">
+      <!-- Celular -->
+      <div class="w-full md:w-1/2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Celular *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="dadosContato.celular"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onCelularInput($event, 'celular')"
+          maxlength="16"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          [class.border-red-300]="dadosContato.confirmeCelular && !celularesMatch"
+          placeholder="(00) 0 0000-0000">
+      </div>
+
+      <!-- Confirme Celular -->
+      <div class="w-full md:w-1/2">
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Confirme Celular *
+        </label>
+        <input 
+          type="text" 
+          [(ngModel)]="dadosContato.confirmeCelular"
+          [ngModelOptions]="{standalone: true}"
+          (input)="onCelularInput($event, 'confirmeCelular')"
+          (paste)="onPaste($event)"
+          maxlength="16"
+          class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD]"
+          [class.border-red-300]="dadosContato.confirmeCelular && !celularesMatch"
+          [class.border-green-300]="dadosContato.confirmeCelular && celularesMatch"
+          placeholder="(00) 0 0000-0000">
+        @if (dadosContato.confirmeCelular && !celularesMatch) {
+          <p class="text-red-600 text-xs mt-1">Celulares não conferem</p>
+        }
+      </div>
+    </div>
+
+    <!-- Observações -->
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-2">
+        Observações
+      </label>
+      <textarea 
+        [(ngModel)]="dadosContato.observacoes"
+        [ngModelOptions]="{standalone: true}"
+        class="observacoes-textarea"
+        placeholder="Digite suas observações (opcional)">
+      </textarea>
+    </div>
+  </div>
+
+  <!-- Checkboxes Obrigatórios -->
+  <div class="space-y-4 mt-8">
+    <!-- Checkbox 1 -->
+    <label class="flex items-start">
+      <input 
+        type="checkbox" 
+        [(ngModel)]="declaracoes.adquirentesTransmitentes"
+        [ngModelOptions]="{standalone: true}"
+        class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded focus:ring-[#0057FD] focus:ring-2 mt-1 mr-3">
+      <span class="text-sm text-gray-700">
+        Declaro que li e confirmo a relação de Adquirentes e Transmitentes.
+      </span>
+    </label>
+
+    <!-- Checkbox 2 -->
+    <label class="flex items-start">
+      <input 
+        type="checkbox" 
+        [(ngModel)]="declaracoes.todosOsDados"
+        [ngModelOptions]="{standalone: true}"
+        class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded focus:ring-[#0057FD] focus:ring-2 mt-1 mr-3">
+      <span class="text-sm text-gray-700">
+        Declaro que li e confirmo todos os dados presentes nesta Declaração de Transmissão.
+      </span>
+    </label>
+  </div>
+
+</div>
