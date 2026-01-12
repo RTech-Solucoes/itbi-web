@@ -56,12 +56,29 @@ jobs:
             COMMIT_SHORT="${COMMIT_SHORT}..."
           fi
 
-          PAYLOAD=$(cat << EOF
+          PAYLOAD=$(cat << 'EOF'
           {
-            "text": "🚀 *Deploy do projeto ITBI Web*\n\n*Projeto*\nitbi-web\n\n*Branch*\nmain\n\n*Status*\nSUCCESS ✅\n\n*Mensagem*\nDeploy para o ITBI Web realizado com sucesso!\n\n*Commit*\n${COMMIT_SHORT}"
+            "cardsV2": [{
+              "cardId": "deployCard",
+              "card": {
+                "header": {
+                  "title": "🚀 Deploy do projeto ITBI Web"
+                },
+                "sections": [{
+                  "widgets": [
+                    { "decoratedText": { "topLabel": "Projeto", "text": "itbi-web" } },
+                    { "decoratedText": { "topLabel": "Branch", "text": "main" } },
+                    { "decoratedText": { "topLabel": "Status", "text": "SUCCESS ✅" } },
+                    { "decoratedText": { "topLabel": "Mensagem", "text": "Deploy para o ITBI Web realizado com sucesso!" } },
+                    { "decoratedText": { "topLabel": "Commit", "text": "COMMIT_PLACEHOLDER" } }
+                  ]
+                }]
+              }
+            }]
           }
           EOF
           )
+          PAYLOAD=$(echo "$PAYLOAD" | sed "s/COMMIT_PLACEHOLDER/${COMMIT_SHORT}/g")
           curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://chat.googleapis.com/v1/spaces/AAQAI8nIGXo/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=bS4XUlb2ElQ0XphjSfO_Esx0kU-Xe07KckYjMLEGdVQ"
 
       - name: Notificar falha no Google Chat
@@ -76,10 +93,27 @@ jobs:
             COMMIT_SHORT="${COMMIT_SHORT}..."
           fi
 
-          PAYLOAD=$(cat << EOF
+          PAYLOAD=$(cat << 'EOF'
           {
-            "text": "❌ *Deploy do projeto ITBI Web*\n\n*Projeto*\nitbi-web\n\n*Branch*\nmain\n\n*Status*\nFAILED ❌\n\n*Mensagem*\nDeploy para o ITBI Web falhou!\n\n*Commit*\n${COMMIT_SHORT}"
+            "cardsV2": [{
+              "cardId": "deployCard",
+              "card": {
+                "header": {
+                  "title": "❌ Deploy do projeto ITBI Web"
+                },
+                "sections": [{
+                  "widgets": [
+                    { "decoratedText": { "topLabel": "Projeto", "text": "itbi-web" } },
+                    { "decoratedText": { "topLabel": "Branch", "text": "main" } },
+                    { "decoratedText": { "topLabel": "Status", "text": "FAILED ❌" } },
+                    { "decoratedText": { "topLabel": "Mensagem", "text": "Deploy para o ITBI Web falhou!" } },
+                    { "decoratedText": { "topLabel": "Commit", "text": "COMMIT_PLACEHOLDER" } }
+                  ]
+                }]
+              }
+            }]
           }
           EOF
           )
+          PAYLOAD=$(echo "$PAYLOAD" | sed "s/COMMIT_PLACEHOLDER/${COMMIT_SHORT}/g")
           curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://chat.googleapis.com/v1/spaces/AAQAI8nIGXo/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=bS4XUlb2ElQ0XphjSfO_Esx0kU-Xe07KckYjMLEGdVQ"
