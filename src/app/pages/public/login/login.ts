@@ -21,7 +21,7 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    console.log('Login attempt:', { cpfCnpj: this.cpfCnpj, senha: this.senha });
+    window.location.href = '/home';
   }
 
   onForgotPassword() {
