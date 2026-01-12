@@ -1,0 +1,37 @@
+# Dependências
+node_modules
+npm-debug.log*
+
+# Build
+dist
+.angular
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Git
+.git
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# CI/CD
+.github
+Jenkinsfile
+
+# Testes
+coverage
+*.spec.ts
+
+# Misc
+README.md
+*.md
+.editorconfig
+.prettierrc
+.eslintrc*

@@ -1,0 +1,105 @@
+name: Deploy ITBI Web
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: itbi-web
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    name: Build and Push Image
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Login no GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build e Push da imagem
+        run: |
+          IMAGE_REPO=${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+          IMAGE_REPO=$(echo "$IMAGE_REPO" | tr '[:upper:]' '[:lower:]')
+          SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
+          IMAGE_TAG="main_${SHORT_SHA}"
+
+          echo "Building image: $IMAGE_REPO:$IMAGE_TAG"
+
+          docker build -t $IMAGE_REPO:$IMAGE_TAG -t $IMAGE_REPO:latest .
+          docker push $IMAGE_REPO:$IMAGE_TAG
+          docker push $IMAGE_REPO:latest
+
+          echo "IMAGE_FULL=$IMAGE_REPO:$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Notificar sucesso no Google Chat
+        if: success()
+        continue-on-error: true
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          WEBHOOK_URL: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "Webhook não configurado, pulando notificação"
+            exit 0
+          fi
+
+          PAYLOAD=$(cat << EOF
+          {
+            "cards": [{
+              "header": { "title": "🚀 Deploy ITBI Web", "subtitle": "Build realizado com sucesso!" },
+              "sections": [{
+                "widgets": [
+                  { "keyValue": { "topLabel": "Status", "content": "✅ SUCCESS" } },
+                  { "keyValue": { "topLabel": "Branch", "content": "main" } },
+                  { "keyValue": { "topLabel": "Commit", "content": "${COMMIT_MSG}" } },
+                  { "keyValue": { "topLabel": "Imagem", "content": "${{ env.IMAGE_FULL }}" } }
+                ]
+              }]
+            }]
+          }
+          EOF
+          )
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
+
+      - name: Notificar falha no Google Chat
+        if: failure()
+        continue-on-error: true
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          WEBHOOK_URL: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
+        run: |
+          if [ -z "$WEBHOOK_URL" ]; then
+            echo "Webhook não configurado, pulando notificação"
+            exit 0
+          fi
+
+          PAYLOAD=$(cat << EOF
+          {
+            "cards": [{
+              "header": { "title": "❌ Deploy ITBI Web", "subtitle": "Build falhou!" },
+              "sections": [{
+                "widgets": [
+                  { "keyValue": { "topLabel": "Status", "content": "❌ FAILED" } },
+                  { "keyValue": { "topLabel": "Branch", "content": "main" } },
+                  { "keyValue": { "topLabel": "Commit", "content": "${COMMIT_MSG}" } },
+                  { "keyValue": { "topLabel": "Ver logs", "content": "https://github.com/${{ github.repository }}/actions" } }
+                ]
+              }]
+            }]
+          }
+          EOF
+          )
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
