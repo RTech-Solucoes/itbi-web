@@ -2,9 +2,9 @@
   
   <!-- Tipo do Imóvel -->
   <div class="flex items-center gap-4 mb-8">
-    <span class="text-sm font-medium text-gray-700">Selecione o tipo do imóvel:</span>
+    <span class="text-sm font-bold text-[#000000]">Selecione o tipo do imóvel:</span>
     
-    <div class="inline-flex bg-gray-100 rounded-full p-1">
+    <div class="inline-flex bg-white rounded-full border border-gray-200 shadow-sm">
       <button 
         type="button"
         (click)="onTipoImovelChange('urbano')"
@@ -30,7 +30,7 @@
 
   <!-- Card Dados do Imóvel -->
   <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-    <h3 class="text-lg font-semibold text-gray-900 mb-6">Dados do Imóvel</h3>
+    <h3 class="text-lg font-bold text-[#000000] mb-6">Dados do Imóvel</h3>
     
     <div [formGroup]="imovelForm" class="space-y-6">
       
@@ -38,7 +38,7 @@
       @if (tipoImovel === 'urbano') {
         <!-- Inscrição Cadastral -->
         <div class="mb-6">
-          <label class="block text-sm font-medium text-gray-700 mb-2">
+          <label class="block text-sm font-bold text-[#000000] mb-2">
             Inscrição Cadastral *
           </label>
           <div class="relative">
@@ -59,7 +59,7 @@
         <div class="flex flex-col md:flex-row gap-6">
           <!-- Endereço -->
           <div class="w-full md:w-[70%]">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label class="block text-sm font-bold text-[#000000] mb-2">
               Endereço *
             </label>
             <input 
@@ -71,7 +71,7 @@
 
           <!-- Quadra/Lote -->
           <div class="w-full md:w-[30%]">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label class="block text-sm font-bold text-[#000000] mb-2">
               Quadra/Lote *
             </label>
             <input 
@@ -87,7 +87,7 @@
       @if (tipoImovel === 'rural') {
         <!-- Localidade/Distrito -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
+          <label class="block text-sm font-bold text-[#000000] mb-2">
             Localidade/Distrito *
           </label>
           <input 
@@ -99,7 +99,7 @@
 
         <!-- Referência -->
         <div>
-          <label class="block text-sm font-medium text-gray-700 mb-2">
+          <label class="block text-sm font-bold text-[#000000] mb-2">
             Referência *
           </label>
           <input 
@@ -115,7 +115,7 @@
 
   <!-- Card Dados da Matrícula do Imóvel -->
   <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-    <h3 class="text-lg font-semibold text-gray-900 mb-6">Dados da Matrícula do Imóvel</h3>
+    <h3 class="text-lg font-bold text-[#000000] mb-6">Dados da Matrícula do Imóvel</h3>
     
     <div [formGroup]="imovelForm">
       <!-- Primeira linha: Matrícula, Data, Cartório -->
@@ -123,7 +123,7 @@
         
         <!-- Matrícula -->
         <div class="w-full md:w-1/3">
-          <label class="block text-sm font-medium text-gray-700 mb-2">
+          <label class="block text-sm font-bold text-[#000000] mb-2">
             Matrícula *
           </label>
           <input 
@@ -135,7 +135,7 @@
 
         <!-- Data de Emissão da Matrícula -->
         <div class="w-full md:w-1/3">
-          <label class="block text-sm font-medium text-gray-700 mb-2">
+          <label class="block text-sm font-bold text-[#000000] mb-2">
             Data de Emissão da Matrícula *
           </label>
           <input 
@@ -146,7 +146,7 @@
 
         <!-- Cartório de Registro do Imóvel -->
         <div class="w-full md:w-1/3">
-          <label class="block text-sm font-medium text-gray-700 mb-2">
+          <label class="block text-sm font-bold text-[#000000] mb-2">
             Cartório de Registro do Imóvel *
           </label>
           <select 
@@ -167,7 +167,7 @@
           
           <!-- Área Terreno -->
           <div class="w-full md:w-1/2">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label class="block text-sm font-bold text-[#000000] mb-2">
               Área Terreno (ha) *
             </label>
             <input 
@@ -180,7 +180,7 @@
 
           <!-- Área Construída -->
           <div class="w-full md:w-1/2">
-            <label class="block text-sm font-medium text-gray-700 mb-2">
+            <label class="block text-sm font-bold text-[#000000] mb-2">
               Área Construída (m²) *
             </label>
             <input 
@@ -214,11 +214,11 @@
       <table class="w-full">
         <thead>
           <tr class="border-b border-gray-200">
-            <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
-            <th class="text-left py-3 px-4 font-medium text-gray-900">Inscrição Imobiliária</th>
-            <th class="text-left py-3 px-4 font-medium text-gray-900">Complemento</th>
-            <th class="text-left py-3 px-4 font-medium text-gray-900">Área do Terreno</th>
-            <th class="text-left py-3 px-4 font-medium text-gray-900">Área Construída</th>
+            <th class="text-left py-3 px-4 font-bold text-base text-[#000000]">Principal</th>
+            <th class="text-left py-3 px-4 font-bold text-base text-[#000000]">Inscrição Imobiliária</th>
+            <th class="text-left py-3 px-4 font-bold text-base text-[#000000]">Complemento</th>
+            <th class="text-left py-3 px-4 font-bold text-base text-[#000000]">Área do Terreno</th>
+            <th class="text-left py-3 px-4 font-bold text-base text-[#000000]">Área Construída</th>
           </tr>
         </thead>
         <tbody>

@@ -1,9 +1,9 @@
-<div class="min-h-screen bg-gray-50 w-full overflow-x-hidden">
+<div class="min-h-screen bg-[#F5F5F5] w-full overflow-x-hidden">
   <div class="w-full max-w-6xl mx-auto px-3 lg:px-4 py-4 lg:py-6">
     
     <!-- Título -->
     <div class="mb-6 lg:mb-8">
-      <h1 class="text-xl lg:text-2xl font-bold text-gray-900">Declarar Transmissão</h1>
+      <h1 class="text-xl font-bold text-[#000000]">Declarar Transmissão</h1>
     </div>
 
     <!-- Stepper Centralizado -->
@@ -18,10 +18,8 @@
                 <button 
                   (click)="goToStep(i)"
                   class="group relative flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 rounded-full transition-all duration-200"
-                  [class.bg-[#0057FD]]="i === currentStep"
-                  [class.text-white]="i === currentStep"
-                  [class.bg-green-600]="step.completed"
-                  [class.text-white]="step.completed"
+                  [class.bg-[#0057FD]]="i === currentStep || step.completed"
+                  [class.text-white]="i === currentStep || step.completed"
                   [class.bg-gray-200]="i !== currentStep && !step.completed"
                   [class.text-gray-600]="i !== currentStep && !step.completed">
                   
@@ -34,13 +32,15 @@
 
                 <!-- Step Label -->
                 <div class="mt-1 sm:mt-2 lg:mt-3 text-center px-1">
-                  <span class="text-[8px] sm:text-[10px] lg:text-xs font-medium text-gray-600 leading-tight block">{{ step.title }}</span>
+                  <span class="text-[8px] sm:text-[10px] lg:text-xs font-medium leading-tight block"
+                        [class.text-[#0057FD]]="i === currentStep"
+                        [class.text-gray-600]="i !== currentStep">{{ step.title }}</span>
                 </div>
 
                 <!-- Connector Line -->
                 @if (i < steps.length - 1) {
                   <div class="absolute top-3 sm:top-4 lg:top-5 left-full w-2 sm:w-4 lg:w-16 h-0.5 bg-gray-200"
-                       [class.bg-green-600]="step.completed">
+                       [class.bg-[#0057FD]]="step.completed">
                   </div>
                 }
               </li>
