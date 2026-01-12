@@ -23,11 +23,6 @@
               {
                 "glob": "**/*",
                 "input": "public"
-              },
-              {
-                "glob": "_redirects",
-                "input": ".",
-                "output": "/"
               }
             ],
             "styles": [

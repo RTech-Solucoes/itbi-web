@@ -7,6 +7,11 @@
   # Diretório onde os arquivos compilados serão gerados
   publish = "dist/itbi/browser"
 
+[build.environment]
+  # Angular 21 requer Node.js 20+
+  NODE_VERSION = "20"
+  NPM_VERSION = "10"
+
 # Configurações de redirecionamento para SPA (Single Page Application)
 [[redirects]]
   from = "/*"
