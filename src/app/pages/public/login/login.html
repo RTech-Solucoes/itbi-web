@@ -1,0 +1,89 @@
+<div class="min-h-screen flex">
+  <!-- Lado esquerdo -->
+  <div class="flex-1 bg-[#FAFAFA] flex items-center justify-center">
+    <img src="/assets/imagem_login.svg" alt="Imagem Login" class="max-w-full max-h-full">
+  </div>
+  
+  <!-- Lado direito -->
+  <div class="flex-1 bg-white flex items-center justify-center px-8">
+    <div class="w-full max-w-md">
+      <!-- Logo -->
+      <div class="mb-8" style="width: 362px;">
+        <img src="/assets/logo_login.svg" alt="Logo" class="mx-auto mb-6" style="width: 56px; height: 56px;">
+        <h1 class="text-lg font-semibold text-gray-900 mb-2 text-center">Acesso ao sistema</h1>
+        <p class="text-sm text-gray-600 text-center">Informe seus dados de acesso para prosseguir.</p>
+      </div>
+
+      <!-- Formulário -->
+      <form (ngSubmit)="onSubmit()" class="space-y-4">
+        <!-- Campo CPF/CNPJ -->
+        <div>
+          <label for="cpfCnpj" class="block text-sm font-medium text-gray-700 mb-1">CPF ou CNPJ</label>
+          <input
+            type="text"
+            id="cpfCnpj"
+            [(ngModel)]="cpfCnpj"
+            name="cpfCnpj"
+            mask="000.000.000-00||00.000.000/0000-00"
+            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            style="width: 362px;"
+            required
+          >
+        </div>
+
+        <!-- Campo Senha -->
+        <div>
+          <label for="senha" class="block text-sm font-medium text-gray-700 mb-1">Senha</label>
+          <input
+            type="password"
+            id="senha"
+            [(ngModel)]="senha"
+            name="senha"
+            class="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            style="width: 362px;"
+            required
+          >
+          <!-- Link Esqueci minha senha -->
+          <div class="mt-1 text-right" style="width: 362px;">
+            <button
+              type="button"
+              (click)="onForgotPassword()"
+              class="text-blue-600 hover:text-blue-800 underline"
+              style="font-size: 12px; font-weight: 400;"
+            >
+              Esqueci minha senha
+            </button>
+          </div>
+        </div>
+
+        <!-- Botão Acessar -->
+        <button
+          type="submit"
+          class="bg-[#0057FD] text-white py-2.5 rounded-md hover:bg-blue-700 transition-colors font-medium"
+          style="width: 362px; height: 40px;"
+        >
+          Acessar
+        </button>
+      </form>
+
+      <!-- Divisor "ou" -->
+      <div class="flex items-center my-6" style="width: 362px;">
+        <div class="flex-1 border-t border-gray-300"></div>
+        <span class="px-4 text-sm text-gray-500">ou</span>
+        <div class="flex-1 border-t border-gray-300"></div>
+      </div>
+
+      <!-- Link de cadastro -->
+      <div class="text-center" style="width: 362px;">
+        <span class="text-sm text-gray-600">Ainda não possui cadastro? </span>
+        <button
+          type="button"
+          (click)="onRegister()"
+          class="text-sm text-blue-600 hover:text-blue-800 underline font-medium"
+        >
+          Realizar cadastro
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
