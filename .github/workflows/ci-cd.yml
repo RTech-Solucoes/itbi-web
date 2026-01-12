@@ -49,13 +49,7 @@ jobs:
         continue-on-error: true
         env:
           COMMIT_MSG: ${{ github.event.head_commit.message }}
-          WEBHOOK_URL: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
         run: |
-          if [ -z "$WEBHOOK_URL" ]; then
-            echo "Webhook não configurado, pulando notificação"
-            exit 0
-          fi
-
           PAYLOAD=$(cat << EOF
           {
             "cards": [{
@@ -72,20 +66,14 @@ jobs:
           }
           EOF
           )
-          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://chat.googleapis.com/v1/spaces/AAQAI8nIGXo/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=bS4XUlb2ElQ0XphjSfO_Esx0kU-Xe07KckYjMLEGdVQ"
 
       - name: Notificar falha no Google Chat
         if: failure()
         continue-on-error: true
         env:
           COMMIT_MSG: ${{ github.event.head_commit.message }}
-          WEBHOOK_URL: ${{ secrets.GOOGLE_CHAT_WEBHOOK }}
         run: |
-          if [ -z "$WEBHOOK_URL" ]; then
-            echo "Webhook não configurado, pulando notificação"
-            exit 0
-          fi
-
           PAYLOAD=$(cat << EOF
           {
             "cards": [{
@@ -102,4 +90,4 @@ jobs:
           }
           EOF
           )
-          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "$WEBHOOK_URL"
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://chat.googleapis.com/v1/spaces/AAQAI8nIGXo/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=bS4XUlb2ElQ0XphjSfO_Esx0kU-Xe07KckYjMLEGdVQ"
