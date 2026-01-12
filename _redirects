@@ -1,0 +1,4 @@
+# Redirecionamento para SPA Angular
+# Todas as rotas são redirecionadas para index.html para funcionar o roteamento do Angular
+
+/*    /index.html   200

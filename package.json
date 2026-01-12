@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:netlify": "ng build && chmod +x scripts/netlify-build.sh && ./scripts/netlify-build.sh",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },

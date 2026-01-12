@@ -1,0 +1,119 @@
+name: Deploy ITBI Web
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  IMAGE_NAME: itbi-web
+  REGISTRY: ghcr.io
+
+jobs:
+  build:
+    name: Build and Push Image
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v4
+
+      - name: Login no GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build e Push da imagem
+        run: |
+          IMAGE_REPO=${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+          IMAGE_REPO=$(echo "$IMAGE_REPO" | tr '[:upper:]' '[:lower:]')
+          SHORT_SHA=$(echo ${{ github.sha }} | cut -c1-7)
+          IMAGE_TAG="main_${SHORT_SHA}"
+
+          echo "Building image: $IMAGE_REPO:$IMAGE_TAG"
+
+          docker build -t $IMAGE_REPO:$IMAGE_TAG -t $IMAGE_REPO:latest .
+          docker push $IMAGE_REPO:$IMAGE_TAG
+          docker push $IMAGE_REPO:latest
+
+          echo "IMAGE_FULL=$IMAGE_REPO:$IMAGE_TAG" >> $GITHUB_ENV
+
+      - name: Notificar sucesso no Google Chat
+        if: success()
+        continue-on-error: true
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          # Limitar mensagem do commit a 50 caracteres
+          COMMIT_SHORT=$(echo "$COMMIT_MSG" | head -n1 | cut -c1-50)
+          if [ ${#COMMIT_MSG} -gt 50 ]; then
+            COMMIT_SHORT="${COMMIT_SHORT}..."
+          fi
+
+          PAYLOAD=$(cat << 'EOF'
+          {
+            "cardsV2": [{
+              "cardId": "deployCard",
+              "card": {
+                "header": {
+                  "title": "🚀 Deploy do projeto ITBI Web"
+                },
+                "sections": [{
+                  "widgets": [
+                    { "decoratedText": { "topLabel": "Projeto", "text": "itbi-web" } },
+                    { "decoratedText": { "topLabel": "Branch", "text": "main" } },
+                    { "decoratedText": { "topLabel": "Status", "text": "SUCCESS ✅" } },
+                    { "decoratedText": { "topLabel": "Mensagem", "text": "Deploy para o ITBI Web realizado com sucesso!" } },
+                    { "decoratedText": { "topLabel": "Commit", "text": "COMMIT_PLACEHOLDER" } }
+                  ]
+                }]
+              }
+            }]
+          }
+          EOF
+          )
+          PAYLOAD=$(echo "$PAYLOAD" | sed "s/COMMIT_PLACEHOLDER/${COMMIT_SHORT}/g")
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://chat.googleapis.com/v1/spaces/AAQAI8nIGXo/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=bS4XUlb2ElQ0XphjSfO_Esx0kU-Xe07KckYjMLEGdVQ"
+
+      - name: Notificar falha no Google Chat
+        if: failure()
+        continue-on-error: true
+        env:
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+        run: |
+          # Limitar mensagem do commit a 50 caracteres
+          COMMIT_SHORT=$(echo "$COMMIT_MSG" | head -n1 | cut -c1-50)
+          if [ ${#COMMIT_MSG} -gt 50 ]; then
+            COMMIT_SHORT="${COMMIT_SHORT}..."
+          fi
+
+          PAYLOAD=$(cat << 'EOF'
+          {
+            "cardsV2": [{
+              "cardId": "deployCard",
+              "card": {
+                "header": {
+                  "title": "❌ Deploy do projeto ITBI Web"
+                },
+                "sections": [{
+                  "widgets": [
+                    { "decoratedText": { "topLabel": "Projeto", "text": "itbi-web" } },
+                    { "decoratedText": { "topLabel": "Branch", "text": "main" } },
+                    { "decoratedText": { "topLabel": "Status", "text": "FAILED ❌" } },
+                    { "decoratedText": { "topLabel": "Mensagem", "text": "Deploy para o ITBI Web falhou!" } },
+                    { "decoratedText": { "topLabel": "Commit", "text": "COMMIT_PLACEHOLDER" } }
+                  ]
+                }]
+              }
+            }]
+          }
+          EOF
+          )
+          PAYLOAD=$(echo "$PAYLOAD" | sed "s/COMMIT_PLACEHOLDER/${COMMIT_SHORT}/g")
+          curl -s -X POST -H "Content-Type: application/json" -d "$PAYLOAD" "https://chat.googleapis.com/v1/spaces/AAQAI8nIGXo/messages?key=AIzaSyDdI0hCZtE6vySjMm-WEfRq3CPzqKqqsHI&token=bS4XUlb2ElQ0XphjSfO_Esx0kU-Xe07KckYjMLEGdVQ"
