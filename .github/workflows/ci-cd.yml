@@ -50,19 +50,15 @@ jobs:
         env:
           COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
+          # Limitar mensagem do commit a 50 caracteres
+          COMMIT_SHORT=$(echo "$COMMIT_MSG" | head -n1 | cut -c1-50)
+          if [ ${#COMMIT_MSG} -gt 50 ]; then
+            COMMIT_SHORT="${COMMIT_SHORT}..."
+          fi
+
           PAYLOAD=$(cat << EOF
           {
-            "cards": [{
-              "header": { "title": "🚀 Deploy ITBI Web", "subtitle": "Build realizado com sucesso!" },
-              "sections": [{
-                "widgets": [
-                  { "keyValue": { "topLabel": "Status", "content": "✅ SUCCESS" } },
-                  { "keyValue": { "topLabel": "Branch", "content": "main" } },
-                  { "keyValue": { "topLabel": "Commit", "content": "${COMMIT_MSG}" } },
-                  { "keyValue": { "topLabel": "Imagem", "content": "${{ env.IMAGE_FULL }}" } }
-                ]
-              }]
-            }]
+            "text": "🚀 *Deploy do projeto ITBI Web*\n\n*Projeto*\nitbi-web\n\n*Branch*\nmain\n\n*Status*\nSUCCESS ✅\n\n*Mensagem*\nDeploy para o ITBI Web realizado com sucesso!\n\n*Commit*\n${COMMIT_SHORT}"
           }
           EOF
           )
@@ -74,19 +70,15 @@ jobs:
         env:
           COMMIT_MSG: ${{ github.event.head_commit.message }}
         run: |
+          # Limitar mensagem do commit a 50 caracteres
+          COMMIT_SHORT=$(echo "$COMMIT_MSG" | head -n1 | cut -c1-50)
+          if [ ${#COMMIT_MSG} -gt 50 ]; then
+            COMMIT_SHORT="${COMMIT_SHORT}..."
+          fi
+
           PAYLOAD=$(cat << EOF
           {
-            "cards": [{
-              "header": { "title": "❌ Deploy ITBI Web", "subtitle": "Build falhou!" },
-              "sections": [{
-                "widgets": [
-                  { "keyValue": { "topLabel": "Status", "content": "❌ FAILED" } },
-                  { "keyValue": { "topLabel": "Branch", "content": "main" } },
-                  { "keyValue": { "topLabel": "Commit", "content": "${COMMIT_MSG}" } },
-                  { "keyValue": { "topLabel": "Ver logs", "content": "https://github.com/${{ github.repository }}/actions" } }
-                ]
-              }]
-            }]
+            "text": "❌ *Deploy do projeto ITBI Web*\n\n*Projeto*\nitbi-web\n\n*Branch*\nmain\n\n*Status*\nFAILED ❌\n\n*Mensagem*\nDeploy para o ITBI Web falhou!\n\n*Commit*\n${COMMIT_SHORT}"
           }
           EOF
           )
