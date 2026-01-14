@@ -1,0 +1,112 @@
+<div class="min-h-screen bg-[#F5F5F5] p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Grid de KPIs -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[38px] mb-[54px]">
+      @for (kpi of kpis; track kpi.title) {
+        <div class="bg-white rounded-lg shadow-sm p-4 flex flex-col justify-between h-[104px]">
+          <!-- Título -->
+          <h3 class="text-base font-normal text-[#636363]">{{ kpi.title }}</h3>
+          
+          <!-- Valor e Ícone -->
+          <div class="flex items-center justify-between">
+            <span class="text-[28px] font-bold text-[#000000]">{{ kpi.value }}</span>
+            <img [src]="kpi.icon" alt="{{ kpi.title }}" class="w-12 h-12">
+          </div>
+        </div>
+      }
+    </div>
+
+    <!-- Filtros -->
+    <div>
+      <!-- Primeira linha -->
+      <div class="flex gap-4 mb-4">
+        <!-- Status -->
+        <div class="flex-1">
+          <label class="block text-sm font-bold text-[#000000] mb-2">Status</label>
+          <select class="w-full h-12 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD] bg-white">
+            <option value="">Todos</option>
+            <option value="concluida">Concluída</option>
+            <option value="aguardando">Aguardando Análise</option>
+            <option value="contestacao">Em Contestação</option>
+          </select>
+        </div>
+
+        <!-- Natureza da Transmissão -->
+        <div class="flex-1">
+          <label class="block text-sm font-bold text-[#000000] mb-2">Natureza da Transmissão</label>
+          <select class="w-full h-12 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD] bg-white">
+            <option value="">Todas</option>
+            <option value="compra-venda">Compra e Venda</option>
+            <option value="doacao">Doação</option>
+            <option value="permuta">Permuta</option>
+          </select>
+        </div>
+
+        <!-- Período -->
+        <div class="flex-1">
+          <label class="block text-sm font-bold text-[#000000] mb-2">Período</label>
+          <div class="flex gap-2">
+            <input type="date" class="flex-1 h-12 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD] bg-white">
+            <input type="date" class="flex-1 h-12 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD] bg-white">
+          </div>
+        </div>
+      </div>
+
+      <!-- Segunda linha -->
+      <div class="flex gap-4">
+        <!-- Filtrar por -->
+        <div class="flex-1">
+          <label class="block text-sm font-bold text-[#000000] mb-2">Filtrar por</label>
+          <select class="w-full h-12 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD] bg-white">
+            <option value="">Selecione</option>
+            <option value="cpf">CPF/CNPJ</option>
+            <option value="protocolo">Protocolo</option>
+            <option value="inscricao">Inscrição</option>
+          </select>
+        </div>
+
+        <!-- Campo sem label -->
+        <div class="flex-1">
+          <div class="h-[22px] mb-2"></div>
+          <input type="text" class="w-full h-12 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD] bg-white" placeholder="Digite...">
+        </div>
+
+        <!-- Botões -->
+        <div class="flex-1 flex gap-4 items-end">
+          <button class="flex-1 h-12 px-4 bg-[#0057FD] text-white rounded-lg hover:bg-[#0046D1] font-medium">
+            Filtrar
+          </button>
+          <button class="flex-1 h-12 px-4 bg-white text-[#0057FD] border border-[#0057FD] rounded-lg hover:bg-gray-50 font-medium">
+            Limpar
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabela -->
+    <div class="bg-white rounded-lg shadow-sm mt-[54px] overflow-hidden">
+      <table class="w-full">
+        <thead>
+          <tr class="border-b border-gray-200">
+            <th class="text-left py-3 px-4 font-semibold text-base text-[#000000]">Status</th>
+            <th class="text-left py-3 px-4 font-semibold text-base text-[#000000]">Protocolo</th>
+            <th class="text-left py-3 px-4 font-semibold text-base text-[#000000]">Solicitação</th>
+            <th class="text-left py-3 px-4 font-semibold text-base text-[#000000]">Imóvel Principal</th>
+            <th class="text-left py-3 px-4 font-semibold text-base text-[#000000]">Aval. Automática</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (declaracao of declaracoes; track declaracao.protocolo) {
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
+              <td class="py-3 px-4 text-[#636363] text-base font-normal">{{ declaracao.status }}</td>
+              <td class="py-3 px-4 text-[#636363] text-base font-normal font-mono">{{ declaracao.protocolo }}</td>
+              <td class="py-3 px-4 text-[#636363] text-base font-normal">{{ declaracao.solicitacao }}</td>
+              <td class="py-3 px-4 text-[#636363] text-base font-normal font-mono">{{ declaracao.imovel }}</td>
+              <td class="py-3 px-4 text-[#636363] text-base font-normal">{{ declaracao.avalAutomatica }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
