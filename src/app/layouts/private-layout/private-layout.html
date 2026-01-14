@@ -1,8 +1,10 @@
 <app-header></app-header>
 <div class="flex pt-16">
   <app-sidebar></app-sidebar>
-  <main class="flex-1 ml-0 md:ml-15 p-3 md:p-5 min-h-[calc(100vh-64px)] bg-[#F5F5F5] transition-all duration-300">
-    <router-outlet></router-outlet>
+  <div class="flex-1 ml-0 md:ml-15 transition-all duration-300">
+    <main class="p-3 md:p-5 min-h-[calc(100vh-64px-280px)] bg-[#F5F5F5]">
+      <router-outlet></router-outlet>
+    </main>
     <app-footer></app-footer>
-  </main>
+  </div>
 </div>

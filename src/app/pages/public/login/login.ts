@@ -21,7 +21,7 @@ export class LoginComponent {
   }
 
   onSubmit() {
-    window.location.href = '/home';
+    window.location.href = '/dashboard';
   }
 
   onForgotPassword() {
