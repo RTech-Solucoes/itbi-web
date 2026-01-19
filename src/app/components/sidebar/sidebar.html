@@ -29,10 +29,18 @@
       </div>
     </div>
 
-    <div class="mb-1 cursor-pointer rounded-lg transition-all duration-200 text-gray-500 hover:bg-gray-100 hover:text-gray-700" [class.px-2]="isExpanded" [class.mx-2]="isExpanded" [class.px-1]="!isExpanded" [class.mx-1]="!isExpanded" (mouseenter)="expand()" (mouseleave)="collapse()">
-      <div class="flex items-center p-3">
-        <i class="fas fa-cog text-lg min-w-7 text-center"></i>
-        <span class="ml-3 text-sm font-medium opacity-0 transform -translate-x-2 transition-all duration-300" [class.opacity-100]="isExpanded" [class.translate-x-0]="isExpanded">Configurações</span>
+    <div class="mb-1" [class.mx-2]="isExpanded" [class.mx-1]="!isExpanded" (mouseenter)="expand()" (mouseleave)="collapse()">
+      <div class="cursor-pointer rounded-lg transition-all duration-200 text-gray-500 hover:bg-gray-100 hover:text-gray-700" [class.px-2]="isExpanded" [class.px-1]="!isExpanded" (click)="toggleSubmenu('configuracoes')">
+        <div class="flex items-center p-3 relative">
+          <i class="fas fa-cog text-lg min-w-7 text-center"></i>
+          <span class="ml-3 text-sm font-medium opacity-0 transform -translate-x-2 transition-all duration-300 flex-1" [class.opacity-100]="isExpanded" [class.translate-x-0]="isExpanded">Configurações</span>
+          <i class="fas fa-chevron-down text-xs ml-auto transition-transform duration-200" [class.rotate-180]="expandedMenu === 'configuracoes'" [class.opacity-100]="isExpanded" [class.opacity-0]="!isExpanded"></i>
+        </div>
+      </div>
+      <div class="max-h-0 overflow-hidden transition-all duration-300 bg-gray-50 rounded-md mt-1" [class.max-h-48]="expandedMenu === 'configuracoes'">
+        <div class="py-2 px-12 cursor-pointer transition-all duration-200 hover:bg-gray-100" (click)="navigate('/configuracoes/valores-abertura-pat')">
+          <span class="text-xs text-gray-500 opacity-0 transform -translate-x-2 transition-all duration-300" [class.opacity-100]="isExpanded" [class.translate-x-0]="isExpanded">Valores Abertura PAT</span>
+        </div>
       </div>
     </div>
   </div>
