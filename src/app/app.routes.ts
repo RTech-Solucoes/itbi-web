@@ -29,6 +29,10 @@ export const routes: Routes = [
             {
                 path: 'imoveis/declarar-transmissao',
                 loadComponent: () => import('./pages/private/imoveis/transmissao/transmissao-form/transmissao-form').then(m => m.TransmissaoForm)
+            },
+            {
+                path: 'configuracoes/valores-abertura-pat',
+                loadComponent: () => import('./pages/private/configuracoes/valores-abertura-pat/valores-abertura-pat').then(m => m.ValoresAberturaPat)
             }
         ]
     }
