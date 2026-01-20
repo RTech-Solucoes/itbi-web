@@ -1,0 +1,36 @@
+:host {
+  font-family: 'Roboto', sans-serif;
+}
+
+.mini-card {
+  padding: 4px 16px;
+  border-left: 2px solid #3A86FF;
+  background: #F8F9FA;
+  gap: 2px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.label-style {
+  font-family: Roboto;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0%;
+  text-transform: uppercase;
+  color: #666666;
+}
+
+.value-style {
+  font-family: Roboto;
+  font-weight: 700;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  color: #000000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

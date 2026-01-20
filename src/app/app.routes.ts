@@ -31,6 +31,14 @@ export const routes: Routes = [
                 loadComponent: () => import('./pages/private/imoveis/transmissao/transmissao-form/transmissao-form').then(m => m.TransmissaoForm)
             },
             {
+                path: 'imoveis/consultar-protocolo',
+                loadComponent: () => import('./pages/private/imoveis/consultar-protocolo/consultar-protocolo').then(m => m.ConsultarProtocolo)
+            },
+            {
+                path: 'imoveis/visualizar-protocolo',
+                loadComponent: () => import('./pages/private/imoveis/visualizar-protocolo/visualizar-protocolo').then(m => m.VisualizarProtocolo)
+            },
+            {
                 path: 'configuracoes/valores-abertura-pat',
                 loadComponent: () => import('./pages/private/configuracoes/valores-abertura-pat/valores-abertura-pat').then(m => m.ValoresAberturaPat)
             }

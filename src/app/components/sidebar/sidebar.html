@@ -26,6 +26,9 @@
         <div class="py-2 px-12 cursor-pointer transition-all duration-200 hover:bg-gray-100" (click)="navigate('/imoveis/declarar-transmissao')">
           <span class="text-xs text-gray-500 opacity-0 transform -translate-x-2 transition-all duration-300" [class.opacity-100]="isExpanded" [class.translate-x-0]="isExpanded">Declarar Transmissão</span>
         </div>
+        <div class="py-2 px-12 cursor-pointer transition-all duration-200 hover:bg-gray-100" (click)="navigate('/imoveis/consultar-protocolo')">
+          <span class="text-xs text-gray-500 opacity-0 transform -translate-x-2 transition-all duration-300" [class.opacity-100]="isExpanded" [class.translate-x-0]="isExpanded">Consultar Protocolo</span>
+        </div>
       </div>
     </div>
 
@@ -57,15 +60,15 @@
       <i class="fas fa-home text-lg mb-1"></i>
       <span class="text-xs">Início</span>
     </button>
-    <button (click)="navigate('/imoveis/declarar-transmissao')" class="flex flex-col items-center p-2 text-gray-500 hover:text-gray-700">
+    <button (click)="toggleSubmenu('imoveis')" class="flex flex-col items-center p-2 text-gray-500 hover:text-gray-700">
       <i class="fas fa-building text-lg mb-1"></i>
       <span class="text-xs">Imóveis</span>
     </button>
-    <button (click)="navigate('/consultas')" class="flex flex-col items-center p-2 text-gray-500 hover:text-gray-700">
+    <button (click)="navigate('/imoveis/consultar-protocolo')" class="flex flex-col items-center p-2 text-gray-500 hover:text-gray-700">
       <i class="fas fa-search text-lg mb-1"></i>
       <span class="text-xs">Consultas</span>
     </button>
-    <button (click)="navigate('/configuracoes')" class="flex flex-col items-center p-2 text-gray-500 hover:text-gray-700">
+    <button (click)="toggleSubmenu('configuracoes')" class="flex flex-col items-center p-2 text-gray-500 hover:text-gray-700">
       <i class="fas fa-cog text-lg mb-1"></i>
       <span class="text-xs">Config</span>
     </button>

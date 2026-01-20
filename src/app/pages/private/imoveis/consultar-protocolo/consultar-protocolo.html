@@ -1,0 +1,26 @@
+<div class="min-h-screen bg-[#F5F5F5] p-6">
+  <div class="max-w-7xl mx-auto">
+    <h1 class="text-2xl font-bold text-[#000000] mb-6">Consultar Protocolo</h1>
+    
+    <div class="bg-white rounded-lg shadow-sm p-6">
+      <div class="max-w-md">
+        <label class="block text-sm font-bold text-[#000000] mb-2">Protocolo</label>
+        <div class="flex gap-4">
+          <input 
+            type="text" 
+            [(ngModel)]="protocolo"
+            mask="000.000/00-00"
+            placeholder="000.000/00-00"
+            class="flex-1 h-12 px-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0057FD] focus:border-[#0057FD] bg-white"
+          >
+          <button 
+            (click)="consultar()"
+            class="h-12 px-6 bg-[#0057FD] text-white rounded-lg hover:bg-[#0046D1] font-medium"
+          >
+            Consultar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
