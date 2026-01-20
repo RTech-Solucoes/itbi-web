@@ -1,0 +1,226 @@
+<div class="min-h-screen bg-[#F5F5F5] p-6">
+  <div class="max-w-7xl mx-auto">
+    <!-- Header com título e botões -->
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-[#000000]">Visualizar Protocolo</h1>
+      <div class="flex gap-4">
+        <button 
+          (click)="emitirProtocolo()"
+          class="h-12 px-6 bg-[#0057FD] text-white rounded-lg hover:bg-[#0046D1] font-medium"
+        >
+          Emitir Protocolo
+        </button>
+        <button 
+          (click)="cancelarDeclaracao()"
+          class="h-12 px-6 bg-white text-[#0057FD] border border-[#0057FD] rounded-lg hover:bg-gray-50 font-medium"
+        >
+          Cancelar Declaração
+        </button>
+      </div>
+    </div>
+
+    <!-- Alert -->
+    <div class="bg-[#E8EFFC] border-l-4 border-[#125DDB] p-4 mb-6 rounded-r-lg flex items-start gap-3">
+      <i class="fas fa-info-circle text-[#125DDB] text-xl mt-0.5"></i>
+      <p class="text-sm text-gray-800">
+        O Protocolo de Nº <strong>{{ nrProtocolo | protocolo }}</strong> está <strong>EM CONTESTAÇÃO</strong>. Não esqueça de emitir o protocolo, a guia de ITBI e após o pagamento, emitir a certidão. 
+        Apresente os documentos acima no cartório para efetivar a transmissão do imóvel para os adquirentes.
+      </p>
+    </div>
+
+    <!-- Conteúdo igual ao step-confirmacao -->
+    <div class="space-y-8">
+      
+      <!-- Card Dados do Protocolo -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-bold text-[#000000] mb-6">Dados do Protocolo</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          @for (item of dadosProtocolo; track item.label) {
+            <div class="mini-card" style="width: 226px; height: 80px; border-radius: 6px;">
+              <div class="label-style">{{ item.label }}</div>
+              <div class="value-style">
+                @if (item.label === 'PROTOCOLO') {
+                  {{ item.value | protocolo }}
+                } @else {
+                  {{ item.value }}
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+      
+      <!-- Card Dados da Transmissão -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-bold text-[#000000] mb-6">Dados da Transmissão</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          @for (item of dadosTransmissao; track item.label) {
+            <div class="mini-card" style="width: 226px; height: 80px; border-radius: 6px;">
+              <div class="label-style">{{ item.label }}</div>
+              <div class="value-style">{{ item.value }}</div>
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Card Dados do Imóvel -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-bold text-[#000000] mb-6">Dados do Imóvel</h3>
+        
+        <div class="mini-card mb-4" style="width: 100%; height: 80px; border-radius: 6px;">
+          <div class="label-style">ENDEREÇO</div>
+          <div class="value-style">{{ dadosImovel.endereco }}</div>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
+          @for (item of dadosImovelDetalhes; track item.label) {
+            <div class="mini-card" style="width: 226px; height: 80px; border-radius: 6px;">
+              <div class="label-style">{{ item.label }}</div>
+              <div class="value-style">{{ item.value }}</div>
+            </div>
+          }
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Inscrição Imobiliária</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Complemento</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Área do Terreno</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Área Construída</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of inscricoesImoveis; track item.id) {
+                <tr class="border-b border-gray-100">
+                  <td class="py-3 px-4">
+                    <input type="checkbox" [checked]="item.principal" disabled class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded">
+                  </td>
+                  <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ item.inscricaoImobiliaria }}</td>
+                  <td class="py-3 px-4 text-gray-700">{{ item.complemento }}</td>
+                  <td class="py-3 px-4 text-gray-700">{{ item.areaTerreno }}</td>
+                  <td class="py-3 px-4 text-gray-700">{{ item.areaConstruida }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Card Transmitentes -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-bold text-[#000000] mb-6">Transmitentes</h3>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (transmitente of transmitentes; track transmitente.id) {
+                <tr class="border-b border-gray-100">
+                  <td class="py-3 px-4">
+                    <input type="checkbox" [checked]="transmitente.principal" disabled class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded">
+                  </td>
+                  <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(transmitente.documento) }}</td>
+                  <td class="py-3 px-4 text-gray-700">{{ transmitente.nome }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Card Adquirentes -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-bold text-[#000000] mb-6">Adquirentes</h3>
+        
+        <div class="overflow-x-auto">
+          <table class="w-full">
+            <thead>
+              <tr class="border-b border-gray-200">
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+                <th class="text-left py-3 px-4 font-medium text-gray-900">Participação</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (adquirente of adquirentes; track adquirente.id) {
+                <tr class="border-b border-gray-100">
+                  <td class="py-3 px-4">
+                    <input type="checkbox" [checked]="adquirente.principal" disabled class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded">
+                  </td>
+                  <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(adquirente.documento) }}</td>
+                  <td class="py-3 px-4 text-gray-700">{{ adquirente.nome }}</td>
+                  <td class="py-3 px-4 text-gray-700 font-medium">{{ adquirente.participacao }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Card Usufrutuários (só aparece se houver) -->
+      @if (usufrutos.length > 0) {
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+          <h3 class="text-lg font-bold text-[#000000] mb-6">Usufrutuários</h3>
+          
+          <div class="overflow-x-auto">
+            <table class="w-full">
+              <thead>
+                <tr class="border-b border-gray-200">
+                  <th class="text-left py-3 px-4 font-medium text-gray-900">Principal</th>
+                  <th class="text-left py-3 px-4 font-medium text-gray-900">CPF / CNPJ</th>
+                  <th class="text-left py-3 px-4 font-medium text-gray-900">Nome</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (usufruto of usufrutos; track usufruto.id) {
+                  <tr class="border-b border-gray-100">
+                    <td class="py-3 px-4">
+                      <input type="checkbox" [checked]="usufruto.principal" disabled class="w-4 h-4 text-[#0057FD] bg-gray-100 border-gray-300 rounded">
+                    </td>
+                    <td class="py-3 px-4 text-gray-900 font-mono text-sm">{{ formatDocument(usufruto.documento) }}</td>
+                    <td class="py-3 px-4 text-gray-700">{{ usufruto.nome }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      }
+
+      <!-- Card Arquivos Anexados -->
+      <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <h3 class="text-lg font-bold text-[#000000] mb-6">Arquivos Anexados</h3>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          @for (arquivo of arquivosAnexados; track arquivo.id) {
+            <div class="bg-gray-50 rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition-colors"
+                 (click)="openFile(arquivo)">
+              <div class="flex items-center mb-2">
+                <i class="fas fa-file-pdf text-red-500 text-2xl mr-3"></i>
+                <span class="text-sm font-medium text-gray-900 truncate">{{ arquivo.nome }}</span>
+              </div>
+              <div class="text-xs text-gray-500">
+                <span>{{ arquivo.tamanho }}</span>
+                <span class="mx-2">•</span>
+                <span class="text-green-600">Anexado</span>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
